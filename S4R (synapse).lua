@@ -11,7 +11,7 @@ _G.S4RRefreshRate = 1
 _G.Colour = {["R"] = 0, ["G"] = 185, ["B"] = 0}
 
 S4RSettings = {
-    AnnounceSong = true
+    AnnounceSong = true -- change to false if you don't want to announce your song in chat
 }
 
 -- SCRIPT BELOW
@@ -110,7 +110,7 @@ local cachedsong
 local currentsong
 
 local function updateGUI()
-	cachedsong = currentsong
+    cachedsong = currentsong
     local playing = getPlaying()
     local decodedbody = http:JSONDecode(playing["Body"])
     local songNameStr = tostring(decodedbody["item"]["name"])
@@ -124,9 +124,9 @@ local function updateGUI()
             announce("SFR: Currently listening to " .. songNameStr .. " by " .. string.sub(artiststr, 3) .. "...") 
         end 
     end
-	songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3)
-	TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
-	BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
+   songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3)
+   TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
+   BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
 end
 
 local function ABCNS_fake_script()

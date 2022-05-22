@@ -1,5 +1,6 @@
 -- it seems i was not the first
 -- also see: https://github.com/AtlasC0R3/bloxify/
+-- uses https://github.com/jpatrickdill/roblox-requests
 
 local rs = game:GetService("ReplicatedStorage")
 local http = require(rs["http"])

@@ -17,7 +17,7 @@ S4RSettings = {
 -- SCRIPT BELOW
 local http = game:GetService("HttpService")
 local cg = game:GetService("CoreGui")
-if cg:FindFirstChild("NowPlaying") then cg["NowPlaying"]:Destroy() end
+if cg:FindFirstChild("S4R") then cg["S4R"]:Destroy() end
 local UIGradient
 local LeftBorder
 local TopBorder
@@ -36,7 +36,7 @@ UIGradient_2 = Instance.new("UIGradient")
 BottomBorder = Instance.new("Frame")
 UIGradient_3 = Instance.new("UIGradient")
 songLabel = Instance.new("TextLabel")
-NowPlaying.Name = "NowPlaying"
+NowPlaying.Name = "S4R"
 NowPlaying.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Main.Name = "Main"
 Main.Parent = NowPlaying

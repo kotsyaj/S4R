@@ -103,7 +103,7 @@ local function updateGUI()
     for i = 1, #artists, 1 do artiststr =  artiststr .. ", " .. artists[i].name end
     currentsong = decodedbody["item"]["name"]
     if cachedsong ~= currentsong then 
-        if S4RSettings.AnnounceSong == true then 
+        if _G.S4RSettings.AnnounceSong == true then 
             announce("SFR: Currently listening to " .. songNameStr .. " by " .. string.sub(artiststr, 3) .. "...") 
         end 
     end

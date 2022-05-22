@@ -1,23 +1,6 @@
--- TO GET TOKEN CLICK GO TO https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=
--- PLEASE NOTE IF YOU ARE USING STYLE 2 TICK "USER-MODIFY-PLAYBACK-STATE" AS WELL
--- AND THEN CLICK "GET TOKEN", TICK THE REQUIRED SCOPES BOX AND CLICK REQUEST TOKEN
--- COPY THE TOKEN AND PASTE IT INTO "_G.S4RToken"
-
--- FUNCTIONALITY
-_G.S4RToken = ""
-_G.S4RRefreshRate = 1
-
--- APPEARANCE
-_G.Colour = {["R"] = 0, ["G"] = 185, ["B"] = 0}
-
-S4RSettings = {
-    AnnounceSong = true -- change to false if you don't want to announce your song in chat
-}
-
--- SCRIPT BELOW
 local http = game:GetService("HttpService")
 local cg = game:GetService("CoreGui")
-if cg:FindFirstChild("S4R") then cg["S4R"]:Destroy() end
+if cg:FindFirstChild("NowPlaying") then cg["NowPlaying"]:Destroy() end
 local UIGradient
 local LeftBorder
 local TopBorder
@@ -36,7 +19,7 @@ UIGradient_2 = Instance.new("UIGradient")
 BottomBorder = Instance.new("Frame")
 UIGradient_3 = Instance.new("UIGradient")
 songLabel = Instance.new("TextLabel")
-NowPlaying.Name = "S4R"
+NowPlaying.Name = "NowPlaying"
 NowPlaying.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Main.Name = "Main"
 Main.Parent = NowPlaying

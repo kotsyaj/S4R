@@ -1,10 +1,3 @@
-_G.S4RToken = 'BQCiaWaJnujsKxY3Dg4JbXI509iR28pVCo9-0HfSFESZQiMUt7sLi-tH4VFG3-eLqn33qZBrZSsEkMOsnYrNRfuDlyV7BweAY5jKrddPBhNcdpxow8fil_yoVHGW56hYSWZh26mBac-cbRnur7ewVipmvqb-QS2Umpd2U0pz7_WV'
-_G.S4RRefreshRate = 1
-_G.Colour = {['R'] = 0, ['G'] = 185, ['B'] = 0}
-_G.S4RSettings = {
-    AnnounceSong = true -- change to false if you don't want to announce your song in chat
-}
-
 if syn then
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if State == Enum.TeleportState.Started then

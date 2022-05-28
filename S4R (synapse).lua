@@ -1,11 +1,3 @@
-if syn then
-game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
-    if State == Enum.TeleportState.Started then
-        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20Loadstring%20(synapse).lua'))()")
-    end
-end)
-end
-
 local http = game:GetService("HttpService")
 local cg = game:GetService("CoreGui")
 if cg:FindFirstChild("NowPlaying") then cg["NowPlaying"]:Destroy() end

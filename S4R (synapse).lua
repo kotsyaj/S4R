@@ -1,3 +1,18 @@
+_G.S4RToken = 'BQCiaWaJnujsKxY3Dg4JbXI509iR28pVCo9-0HfSFESZQiMUt7sLi-tH4VFG3-eLqn33qZBrZSsEkMOsnYrNRfuDlyV7BweAY5jKrddPBhNcdpxow8fil_yoVHGW56hYSWZh26mBac-cbRnur7ewVipmvqb-QS2Umpd2U0pz7_WV'
+_G.S4RRefreshRate = 1
+_G.Colour = {['R'] = 0, ['G'] = 185, ['B'] = 0}
+_G.S4RSettings = {
+    AnnounceSong = true -- change to false if you don't want to announce your song in chat
+}
+
+if syn then
+game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
+    if State == Enum.TeleportState.Started then
+        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20Loadstring%20(synapse).lua'))()")
+    end
+end)
+end
+
 local http = game:GetService("HttpService")
 local cg = game:GetService("CoreGui")
 if cg:FindFirstChild("NowPlaying") then cg["NowPlaying"]:Destroy() end
@@ -86,30 +101,36 @@ local function getPlaying()
             ["Authorization"] = auth
         };
     })
-    if response.StatusCode == 200 then return(response) else warn("API Rejected Request, Status Code: " .. response.StatusCode) end
+    if response.StatusCode == 200 then return(response) else warn("API Rejected Request, Status Code: " .. response.StatusCode) return "error" end
 end
 
 local cachedsong
 local currentsong
 
 local function updateGUI()
+    local decodedbody, songNameStr, artists
     cachedsong = currentsong
     local playing = getPlaying()
-    local decodedbody = http:JSONDecode(playing["Body"])
-    local songNameStr = tostring(decodedbody["item"]["name"])
-    local artists = decodedbody["item"]["artists"]
-    local artiststr = ""
-    local previousSong = ""
-    for i = 1, #artists, 1 do artiststr =  artiststr .. ", " .. artists[i].name end
-    currentsong = decodedbody["item"]["name"]
-    if cachedsong ~= currentsong then 
-        if _G.S4RSettings.AnnounceSong == true then 
-            announce("SFR: Currently listening to " .. songNameStr .. " by " .. string.sub(artiststr, 3) .. "...") 
-        end 
+    if playing ~= "error" then
+        local suc1, err1 = pcall(function() decodedbody = http:JSONDecode(playing["Body"]) end) if err1 then warn(err1) end
+        local suc2, err2 = pcall(function() songNameStr = tostring(decodedbody["item"]["name"]) end) if err2 then warn(err2) end
+        local suc3, err3 = pcall(function() artists = decodedbody["item"]["artists"] end) if err3 then warn(err3) end
+        local artiststr = ""
+        local previousSong = ""
+        for i = 1, #artists, 1 do artiststr =  artiststr .. ", " .. artists[i].name end
+        local suc4, err4 = pcall(function() currentsong = decodedbody["item"]["name"] end) if err4 then warn(err4) end
+        if cachedsong ~= currentsong then 
+            if _G.S4RSettings.AnnounceSong == true then 
+                announce("SFR: Currently listening to " .. songNameStr .. " by " .. string.sub(artiststr, 3) .. "...") 
+            end 
+        end
+        songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3)
+        local suc5, err5 = pcall(function()
+            TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
+            BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
+        end)
+        if err5 then warn(err5) end
     end
-   songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3)
-   TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
-   BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
 end
 
 local function ABCNS_fake_script()

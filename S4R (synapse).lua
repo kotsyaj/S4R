@@ -93,29 +93,29 @@ local cachedsong
 local currentsong
 
 local function updateGUI()
-    local decodedbody, songNameStr, artists
-    cachedsong = currentsong
-    local playing = getPlaying()
-    if playing ~= "error" then
-        local suc1, err1 = pcall(function() decodedbody = http:JSONDecode(playing["Body"]) end) if err1 then warn(err1) end
-        local suc2, err2 = pcall(function() songNameStr = tostring(decodedbody["item"]["name"]) end) if err2 then warn(err2) end
-        local suc3, err3 = pcall(function() artists = decodedbody["item"]["artists"] end) if err3 then warn(err3) end
-        local artiststr = ""
-        local previousSong = ""
-        for i = 1, #artists, 1 do artiststr =  artiststr .. ", " .. artists[i].name end
-        local suc4, err4 = pcall(function() currentsong = decodedbody["item"]["name"] end) if err4 then warn(err4) end
-        if cachedsong ~= currentsong then 
-            if _G.S4RSettings.AnnounceSong == true then 
-                announce("SFR: Currently listening to " .. songNameStr .. " by " .. string.sub(artiststr, 3) .. "...") 
-            end 
-        end
-        songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3)
-        local suc5, err5 = pcall(function()
-            TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
-            BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
-        end)
-        if err5 then warn(err5) end
-    end
+    local suc, err = pcall(function()
+		local decodedbody, songNameStr, artists
+		cachedsong = currentsong
+		local playing = getPlaying()
+		if playing ~= "error" then
+			decodedbody = http:JSONDecode(playing["Body"])
+			songNameStr = tostring(decodedbody["item"]["name"])
+			artists = decodedbody["item"]["artists"]
+			local artiststr = ""
+			local previousSong = ""
+			for i = 1, #artists, 1 do artiststr =  artiststr .. ", " .. artists[i].name end
+			currentsong = decodedbody["item"]["name"]
+			if cachedsong ~= currentsong then 
+				if _G.S4RSettings.AnnounceSong == true then 
+					announce("SFR: Currently listening to " .. songNameStr .. " by " .. string.sub(artiststr, 3) .. "...") 
+				end 
+			end
+			songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3)
+			TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
+			BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2)
+		end
+	end)
+	if err then warn(err) end
 end
 
 local function ABCNS_fake_script()
@@ -159,6 +159,8 @@ local function ABCNS_fake_script()
 end
 coroutine.wrap(ABCNS_fake_script)()
 
-while wait(_G.S4RRefreshRate) do
-    updateGUI()
-end
+coroutine.wrap(
+	while wait(_G.S4RRefreshRate) do
+		updateGUI()
+	end
+)()

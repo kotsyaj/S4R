@@ -1,10 +1,10 @@
-while game:IsLoaded() == false do wait() end
 if not game.Players.LocalPlayer.Character then repeat wait() until game.Players.LocalPlayer.Character end
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if State == Enum.TeleportState.Started then
         syn.queue_on_teleport("_G.S4RToken = " .. _G.S4RToken .. " _G.S4RRefreshRate = " .. _G.S4RRefreshRate .. " _G.Colour = " .. G.Colour .. " _G.S4RSettings = " .. _G.S4RSettings .. " 'loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20(synapse).lua'))()")
     end
 end)
+
 local http = game:GetService("HttpService")
 local cg = game:GetService("CoreGui")
 if cg:FindFirstChild("NowPlaying") then cg["NowPlaying"]:Destroy() end
@@ -166,8 +166,8 @@ local function ABCNS_fake_script()
 end
 coroutine.wrap(ABCNS_fake_script)()
 
-coroutine.wrap(
-	while wait(_G.S4RRefreshRate) do
-		updateGUI()
-	end
-)()
+coroutine.wrap(function()
+    while wait(_G.S4RRefreshRate) do 
+        updateGUI() 
+    end
+end)()

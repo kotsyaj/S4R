@@ -2,7 +2,7 @@ if not game.Players.LocalPlayer.Character then repeat wait() until game.Players.
 
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if State == Enum.TeleportState.Started then
-        syn.queue_on_teleport( _G.S4RSettings .. " loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20(synapse).lua'))()")
+        syn.queue_on_teleport( "_G.S4RSettings = {S4RToken = " .. _G.S4RSettings.S4RToken .. ", S4RRefreshRate = " .. _G.S4RSettings.S4RRefreshRate .. ", Colour = " ..  _G.S4RSettings.Color .. ", AnnounceSong = " .. _G.S4RSettings.AnnounceSong .. ", } loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20(synapse).lua'))()")
     end
 end)
 

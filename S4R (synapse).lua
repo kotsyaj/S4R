@@ -1,31 +1,26 @@
 if not game.Players.LocalPlayer.Character then repeat wait() until game.Players.LocalPlayer.Character end
+
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if State == Enum.TeleportState.Started then
-        syn.queue_on_teleport("_G.S4RToken = " .. _G.S4RToken .. " _G.S4RRefreshRate = " .. _G.S4RRefreshRate .. " _G.Colour = {['R'] = " .. _G.Colour.R .. ", ['G'] = " .. _G.Colour.G .. ", ['B'] = " .. _G.Colour.B .. "} _G.S4RSettings = " .. _G.S4RSettings .. " = {AnnounceSong = " .. _G.S4RSettings.AnnounceSong .. "} loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20(synapse).lua'))()")
+        syn.queue_on_teleport( _G.S4RSettings .. " loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20(synapse).lua'))()")
     end
 end)
 
 local http = game:GetService("HttpService")
 local cg = game:GetService("CoreGui")
+
 if cg:FindFirstChild("NowPlaying") then cg["NowPlaying"]:Destroy() end
-local UIGradient
-local LeftBorder
-local TopBorder
-local UIGradient_2
-local BottomBorder
-local UIGradient_3
-local songLabel
-local NowPlaying
-local Main
-NowPlaying = Instance.new("ScreenGui", cg)
-Main = Instance.new("Frame")
-UIGradient = Instance.new("UIGradient")
-LeftBorder = Instance.new("Frame")
-TopBorder = Instance.new("Frame")
-UIGradient_2 = Instance.new("UIGradient")
-BottomBorder = Instance.new("Frame")
-UIGradient_3 = Instance.new("UIGradient")
-songLabel = Instance.new("TextLabel")
+
+local NowPlaying = Instance.new("ScreenGui", cg)
+local Main = Instance.new("Frame")
+local UIGradient = Instance.new("UIGradient")
+local LeftBorder = Instance.new("Frame")
+local TopBorder = Instance.new("Frame")
+local UIGradient_2 = Instance.new("UIGradient")
+local BottomBorder = Instance.new("Frame")
+local UIGradient_3 = Instance.new("UIGradient")
+local songLabel = Instance.new("TextLabel")
+
 NowPlaying.Name = "NowPlaying"
 NowPlaying.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Main.Name = "Main"
@@ -38,14 +33,14 @@ UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0.00, 0.
 UIGradient.Parent = Main
 LeftBorder.Name = "LeftBorder"
 LeftBorder.Parent = Main
-LeftBorder.BackgroundColor3 = Color3.fromRGB(_G.Colour.R, _G.Colour.G, _G.Colour.B)
+LeftBorder.BackgroundColor3 = Color3.fromRGB(_G.S4RSettings.Colour.R, _G.S4RSettings.Colour.G, _G.S4RSettings.Colour.B)
 LeftBorder.BorderColor3 = Color3.fromRGB(27, 42, 25)
 LeftBorder.BorderSizePixel = 0
 LeftBorder.Size = UDim2.new(0, 2, 1, 0)
 LeftBorder.ZIndex = 3
 TopBorder.Name = "TopBorder"
 TopBorder.Parent = Main
-TopBorder.BackgroundColor3 = Color3.fromRGB(_G.Colour.R, _G.Colour.G, _G.Colour.B)
+TopBorder.BackgroundColor3 = Color3.fromRGB(_G.S4RSettings.Colour.R, _G.S4RSettings.Colour.G, _G.S4RSettings.Colour.B)
 TopBorder.BorderColor3 = Color3.fromRGB(27, 42, 25)
 TopBorder.BorderSizePixel = 0
 TopBorder.Size = UDim2.new(1, 0, 0, 2)
@@ -54,7 +49,7 @@ UIGradient_2.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0.00, 
 UIGradient_2.Parent = TopBorder
 BottomBorder.Name = "BottomBorder"
 BottomBorder.Parent = Main
-BottomBorder.BackgroundColor3 = Color3.fromRGB(_G.Colour.R, _G.Colour.G, _G.Colour.B)
+BottomBorder.BackgroundColor3 = Color3.fromRGB(_G.S4RSettings.Colour.R, _G.S4RSettings.Colour.G, _G.S4RSettings.Colour.B)
 BottomBorder.BorderColor3 = Color3.fromRGB(27, 42, 25)
 BottomBorder.BorderSizePixel = 0
 BottomBorder.Position = UDim2.new(0, 0, 1, -2)
@@ -83,7 +78,7 @@ local function announce(text)
 end
 
 local function getPlaying()
-    local auth = "Bearer " .. _G.S4RToken
+    local auth = "Bearer " .. _G.S4RSettings.S4RToken
     local apiUrl = "https://api.spotify.com/v1/me/player/currently-playing"
     local response = syn.request({
         Url = apiUrl;
@@ -167,7 +162,7 @@ end
 coroutine.wrap(ABCNS_fake_script)()
 
 coroutine.wrap(function()
-    while wait(_G.S4RRefreshRate) do 
+    while wait(_G.S4RSettings.S4RRefreshRate) do 
         updateGUI() 
     end
 end)()

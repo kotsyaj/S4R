@@ -11,7 +11,7 @@ if not game.Players.LocalPlayer.Character then repeat wait() until game.Players.
 -- IF PLAYER IS TELEPORTED RE EXECUTE THE SCRIPT (SYNAPSE ONLY)
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if State == Enum.TeleportState.Started then
-        syn.queue_on_teleport( "_G.S4RToken = " .. tostring(_G.S4RSettings.S4RToken) .. " loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20(synapse).lua'))()")
+        syn.queue_on_teleport( "_G.S4RToken = " .. tostring(_G.S4RToken) .. " loadstring(game:HttpGet('https://raw.githubusercontent.com/kotsyaj/S4R/main/S4R%20(synapse).lua'))()")
     end
 end)
 -- IF PLAYER IS TELEPORTED RE EXECUTE THE SCRIPT (SYNAPSE ONLY)
@@ -112,6 +112,47 @@ local function updateGUI()
 	BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2) -- DURATION PLAYED ----------------------------------------------------------------------------------------------- :)
 end
 -- FUNCTIONS
+
+local function ABCNS_fake_script()
+	local script = Instance.new('LocalScript', Main)
+	local UIS = game:GetService("UserInputService")
+	local dragSpeed = -math.huge
+	local dragToggle = nil
+	local dragInput = nil
+	local dragStart = nil
+	local dragPos = nil
+	function dragify(Frame)
+		function updateInput(input)
+	        local Delta = input.Position - dragStart
+	        local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+	        script.Parent.Position = Position
+		end
+	    Main.InputBegan:Connect(function(input)
+	        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
+	            dragToggle = true
+	            dragStart = input.Position
+	            startPos = Frame.Position
+	            input.Changed:Connect(function()
+	                if input.UserInputState == Enum.UserInputState.End then
+	                    dragToggle = false
+	                end
+	            end)
+	        end
+		end)
+	    Main.InputChanged:Connect(function(input)
+	        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+	            dragInput = input
+	        end
+		end)
+	    game:GetService("UserInputService").InputChanged:Connect(function(input)
+	        if input == dragInput and dragToggle then
+	            updateInput(input)
+	        end
+	    end)
+	end
+	dragify(script.Parent)
+end
+coroutine.wrap(ABCNS_fake_script)()
 
 coroutine.wrap(function()
     while task.wait(.75) do 

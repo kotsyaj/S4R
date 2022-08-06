@@ -101,15 +101,15 @@ local function getPlaying()
 end
 
 local function updateGUI()
-	local decodedbody, songNameStr, artists, artiststr -- VARIABLES ---------------------------------------------------------------------------------------------------------------------------------------------------------- THIS USED TO
-	local playing = getPlaying() -- GETS SPOTIFY API TABLE THING ------------------------------------------------------------------------------------------------------------------------------------------------------------- BE IN A
-    if playing == "error" then return end -- IF ERROR THEN RETURNS ----------------------------------------------------------------------------------------------------------------------------------------------------------- PCALL
-	decodedbody = http:JSONDecode(playing["Body"]) -- DOES EXACTLY WHAT IT LOOKS LIKE ---------------------------------------------------------------------------------------------------------------------------------------- BUT FUCK IT.
-	songNameStr = tostring(decodedbody["item"]["name"]) -- GETS SONG NAME ---------------------------------------------------------------------------------------------------------------------------------------------------- WHILST UR
-	artists = decodedbody["item"]["artists"] artiststr = "" for i = 1, #artists, 1 do artiststr =  artiststr .. ", " .. artists[i].name end -- IF MULTIPLE ARTISTS IT LISTS THEM, FOR EXAMPLE: HELP ME BY ROSESLEEVES, QUINN - HERE
-	songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3) -- DISPLAYS SONG NAME AND ARTIST, EXAPLE: BLISSFULL OVERDOSE BY SEWERSLVT ------------------------------------------------------------------------------ GO TO
-	TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2) -- DURATION PLAYED  ------------------------------------------------------------------------------------------------- KOTSYAJ.FUN
-	BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2) -- DURATION PLAYED ----------------------------------------------------------------------------------------------- :)
+	local decodedbody, songNameStr, artists, artiststr -- VARIABLES
+	local playing = getPlaying() -- GETS SPOTIFY API TABLE THING
+    	if playing == "error" then return end
+	decodedbody = http:JSONDecode(playing["Body"]) -- DOES EXACTLY WHAT IT LOOKS LIKE 
+	songNameStr = tostring(decodedbody["item"]["name"]) -- GETS SONG NAME 
+	artists = decodedbody["item"]["artists"] artiststr = "" for i = 1, #artists, 1 do artiststr =  artiststr .. ", " .. artists[i].name end -- IF MULTIPLE ARTISTS IT LISTS THEM, FOR EXAMPLE: HELP ME BY ROSESLEEVES, QUINN
+	songLabel.Text = songNameStr .. " by ".. string.sub(artiststr, 3) -- DISPLAYS SONG NAME AND ARTIST, EXAPLE: BLISSFULL OVERDOSE BY SEWERSLVT 
+	TopBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2) -- DURATION PLAYED 
+	BottomBorder.Size = UDim2.new(decodedbody["progress_ms"] / decodedbody["item"]["duration_ms"], 0, 0, 2) -- DURATION PLAYED 
 end
 -- FUNCTIONS
 
